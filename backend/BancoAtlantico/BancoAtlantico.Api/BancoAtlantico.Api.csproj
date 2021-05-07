@@ -8,4 +8,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BancoAtlantico.Domain\BancoAtlantico.Domain.csproj" />
+    <ProjectReference Include="..\BancoAtlantico.Infra\BancoAtlantico.Infra.csproj" />
+  </ItemGroup>
+
 </Project>
