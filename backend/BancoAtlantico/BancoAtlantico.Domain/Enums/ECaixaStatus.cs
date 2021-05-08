@@ -3,7 +3,6 @@
     public enum ECaixaStatus
     {
         Ativo,
-        Critico,
         Desativado
     }
 }

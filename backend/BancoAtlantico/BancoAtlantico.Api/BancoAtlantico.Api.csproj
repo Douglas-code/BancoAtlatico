@@ -13,4 +13,8 @@
     <ProjectReference Include="..\BancoAtlantico.Infra\BancoAtlantico.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>
