@@ -12,7 +12,7 @@
 
         public int Quantidade { get; private set; }
 
-        public int DistribuirQantidadeNotasPorValor(int montante)
+        public int DistribuirQantidadeNotasPorValor(ref int montante)
         {
             int cedulasDistribuidas = 0;
 

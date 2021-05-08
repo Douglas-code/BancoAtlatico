@@ -1,7 +1,9 @@
 ﻿
 using BancoAtlantico.Domain.Entities;
+using BancoAtlantico.Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BancoAtlantico.Tests.EntitiesTests
 {
@@ -38,7 +40,31 @@ namespace BancoAtlantico.Tests.EntitiesTests
         public void DeveRetornarApenasUmaNotaDe50AoSacar50()
         {
             Dictionary<int, int> dic = this._caixaEletronico.EfetuarSaque(50);
-            Assert.Equals(1, dic[50]);
+            Assert.AreEqual(1, dic[50]);
+        }
+
+        [TestMethod]
+        public void DeveMudarStatusParaDesativadoAoDesativarCaixa()
+        {
+            this._caixaEletronico.DesativarCaixa();
+            Assert.AreEqual(ECaixaStatus.Desativado, this._caixaEletronico.Status);
+        }
+
+        [TestMethod]
+        public void DeveRetornarUmaCedulaDe50DuasDe20UmaDe2AoSacar92()
+        {
+            Dictionary<int, int> dic = this._caixaEletronico.EfetuarSaque(92);
+            Assert.AreEqual(1, dic[50]);
+            Assert.AreEqual(2, dic[20]);
+            Assert.AreEqual(1, dic[2]);
+        }
+
+        [TestMethod]
+        public void DeveRetornar20AoAdicionar10NotasDe100()
+        {
+            this._caixaEletronico.DepositarCedulas(100, 10);
+            int qtd = this._caixaEletronico.Cedulas.Where(x => x.Valor == 100).Select(s => s.Quantidade).FirstOrDefault();
+            Assert.AreEqual(20, qtd);
         }
     }
 }

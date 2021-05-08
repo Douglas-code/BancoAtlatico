@@ -1,32 +1,35 @@
 ﻿using BancoAtlantico.Domain.Enums;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BancoAtlantico.Domain.Entities
 {
     public class CaixaEletronico : Entity
     {
+        private readonly IList<Cedula> _cedulas;
+
         public CaixaEletronico()
         {
-            this.Cedulas = new List<Cedula>();
+            this._cedulas = new List<Cedula>();
             this.Status = ECaixaStatus.Ativo;
         }
 
-        public List<Cedula> Cedulas { get; set; }
+        public IReadOnlyCollection<Cedula> Cedulas => this._cedulas.ToArray(); 
 
-        public ECaixaStatus Status { get; set; }
+        public ECaixaStatus Status { get; private set; }
 
         public void AdicionarNovaCedula(Cedula cedula)
         {
-            this.Cedulas.Add(cedula);
+            this._cedulas.Add(cedula);
         }
 
         public void DepositarCedulas(int valor, int quantidade)
         {
-            foreach(Cedula cedula in Cedulas)
+            foreach(Cedula cedula in this._cedulas)
             {
                 if(cedula.Valor == valor)
                 {
-                    cedula.Adicionar(valor);
+                    cedula.Adicionar(quantidade);
                 }
             }
         }
@@ -42,7 +45,7 @@ namespace BancoAtlantico.Domain.Entities
 
             foreach(Cedula cedula in Cedulas)
             {
-                CedulasSaque.Add(cedula.Valor, cedula.DistribuirQantidadeNotasPorValor(&valor));
+                CedulasSaque.Add(cedula.Valor, cedula.DistribuirQantidadeNotasPorValor(ref valor));
             }
 
             return CedulasSaque;
