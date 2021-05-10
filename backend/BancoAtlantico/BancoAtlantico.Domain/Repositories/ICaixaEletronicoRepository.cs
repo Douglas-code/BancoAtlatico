@@ -1,7 +1,6 @@
 ﻿using BancoAtlantico.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace BancoAtlantico.Domain.Repositories
 {
@@ -9,8 +8,14 @@ namespace BancoAtlantico.Domain.Repositories
     {
         void Save(CaixaEletronico caixaEletronico);
 
-        Task<CaixaEletronico> ObterCaixaEletronicoPorId(Guid Id);
+        void Update(CaixaEletronico caixaEletronico);
 
-        Task<List<CaixaEletronico>> ListarTodos();
+        CaixaEletronico ObterCaixaEletronicoPorId(Guid Id);
+
+        List<CaixaEletronico> ListarTodos();
+
+        List<CaixaEletronico> ListarCaixasEletronicosDesativados();
+
+        List<CaixaEletronico> ListarCaixaEletronicosAtivos();
     }
 }

@@ -2,10 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BancoAtlantico.Domain.Commands;
+using BancoAtlantico.Domain.Handlers;
+using BancoAtlantico.Domain.Handlers.Contracts;
+using BancoAtlantico.Domain.Repositories;
+using BancoAtlantico.Infra.Contexts;
+using BancoAtlantico.Infra.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,18 +30,25 @@ namespace BancoAtlantico.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddDbContext<DataContext>(c => c.UseInMemoryDatabase("Register"));
+
+            services.AddTransient<ICedulaRepository, CedulaRepository>();
+            services.AddTransient<ICedulaEstoqueRepository, CedulaEstoqueRepository>();
+            services.AddTransient<ICaixaEletronicoRepository, CaixaEletronicoRepository>();
+            services.AddTransient<IHandler<CriarCedulaCommand>, CriarCedulaCommandHandler>();
+            services.AddTransient<IHandler<CriarCaixaEletronicoCommand>, CriarCaixaEletronicoCommandHandler>();
+            services.AddTransient<IHandler<DesativarCaixaEletronicoCommand>, DesativarCaixaEletronicoCommandHandler>();
+            services.AddTransient<IHandler<SaqueCommand>, SaqueCommandHandler>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BancoAtlantico.Api", Version = "v1" });
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

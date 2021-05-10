@@ -1,34 +1,26 @@
-﻿namespace BancoAtlantico.Domain.Entities
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+
+namespace BancoAtlantico.Domain.Entities
 {
     public class Cedula : Entity
     {
-        public Cedula(int valor, int quantidade)
+        public Cedula()
+        {
+            this.Id = new Guid();
+        }
+
+        public Cedula(int valor)
         {
             this.Valor = valor;
-            this.Quantidade = quantidade;
+            this.CedulasEstoque = new List<CedulaEstoque>();
+            this.Id = new Guid();
         }
 
         public int Valor { get; private set; }
 
-        public int Quantidade { get; private set; }
-
-        public int DistribuirQantidadeNotasPorValor(ref int montante)
-        {
-            int cedulasDistribuidas = 0;
-
-            while(montante >= this.Valor && montante > 0 && this.Quantidade > 0)
-            {
-                montante -= this.Valor;
-                this.Quantidade--;
-                cedulasDistribuidas++;
-            }
-
-            return cedulasDistribuidas;
-        }
-
-        public void Adicionar(int quantidade)
-        {
-            this.Quantidade += quantidade;
-        }
+        [JsonIgnore]
+        public List<CedulaEstoque> CedulasEstoque { get; set; }
     }
 }

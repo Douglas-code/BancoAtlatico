@@ -3,13 +3,13 @@ using System;
 
 namespace BancoAtlantico.Domain.Entities
 {
-    public abstract class Entity : Notifiable
+    public abstract class Entity
     {
         public Entity()
         {
-            this.Id = new Guid();
+            
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; protected set; }
     }
 }
