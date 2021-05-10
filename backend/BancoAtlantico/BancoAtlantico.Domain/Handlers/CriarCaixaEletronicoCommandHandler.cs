@@ -27,7 +27,7 @@ namespace BancoAtlantico.Domain.Handlers
             if (command.Cedulas.Count == 0)
                 return new GenericCommandResult(false, "Falha ao criar caixa", null);
 
-            Cedula cedula = new Cedula();
+            Cedula cedula;
             CedulaEstoque cedulaEstoque;
             CaixaEletronico caixaEletronico = new CaixaEletronico();
 
@@ -41,7 +41,6 @@ namespace BancoAtlantico.Domain.Handlers
 
             this._caixaEletronicoRepository.Save(caixaEletronico);
             
-
             return new GenericCommandResult(true, "Caixa criado com Sucesso", caixaEletronico);
         }
     }
